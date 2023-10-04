@@ -30,45 +30,45 @@
   padding: 5px;
 }
 
-.title h1 {
+ h1 {
   font-family: "Sarpanch";
   font-size: 2rem;
   font-weight: 300;
   color: #555;
 }
 
-.title h2 {
+h2 {
   font-family: "Sarpanch";
   font-size: 1.5rem;
   font-weight: 400;
   color: #555;
 }
 
-.base p {
+p {
   font-family: "Gantari";
   margin: 0.5rem;
 }
 
-.base h3 {
+h3 {
   font-family: "Sarpanch";
 }
 
-.base td {
+td {
   font-family: Gantari;
   padding: 5px;
 }
 
-.base th {
+th {
   font-family: Gantari;
   padding: 5px;
 
 }
 
-.base tr:nth-child(even) {
+tr:nth-child(even) {
   background-color: #7d80ff;
 }
 
-.base table {
+table {
   border: 5px solid;
   border-color: #000288;
   width: 100%;
@@ -80,10 +80,32 @@
   border-collapse: collapse;
 }
 
-.base ul {
+ul {
   font-family: Gantari;
 }
 
-.base li {
+li {
   font-family: Gantari;
+}
+
+.column {
+  column-count: 2;
+  column-width: 60%;
+  column-width: 1px;
+  column-rule: solid #000288;
+}
+
+button {
+  font-family: Gantari;
+}
+
+.footer {
+  background:  #000288;
+  height: 30px;
+  color: white;
+}
+
+.footer span {
+   float: right;
+   padding-right: 5px;
 }
