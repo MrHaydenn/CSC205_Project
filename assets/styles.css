@@ -30,12 +30,23 @@
   padding: 5px;
 }
 
-.title h1,h2 {
+.title h1 {
   font-family: "Sarpanch";
+  font-size: 2rem;
+  font-weight: 300;
+  color: #555;
+}
+
+.title h2 {
+  font-family: "Sarpanch";
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #555;
 }
 
 .base p {
   font-family: "Gantari";
+  margin: 0.5rem;
 }
 
 .base h3 {
