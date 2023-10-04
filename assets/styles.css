@@ -1,6 +1,6 @@
 .topnav {
-  background-color: #000288;
-  overflow:hidden;
+    background-color: #41416B;
+    overflow: hidden;
 }
 
 .topnav a {
@@ -18,10 +18,10 @@
   color: gold;
 }
 
-.topnav a.active {
-  background-color: rgb(151, 151, 151);
-  color: black;
-}
+    .topnav a.active {
+        background-color: #707B9B;
+        color: black;
+    }
 
 .image {
   float: left;
@@ -30,8 +30,12 @@
   padding: 5px;
 }
 
-.title h1,h2 {
-  font-family: "Sarpanch";
+.title h1, h2 {
+    border: 0px solid #707B9B;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #dbdbe6;
+    font-family: "Sarpanch";
 }
 
 .base p {
@@ -54,19 +58,19 @@
 }
 
 .base tr:nth-child(even) {
-  background-color: #7d80ff;
+    background-color: #68688E;
 }
 
 .base table {
-  border: 5px solid;
-  border-color: #000288;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  background-color: #9293f3;
-  color: black;
-  font-size: 12;
-  border-collapse: collapse;
+    border: 5px solid;
+    border-color: #41416B;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #8282A6;
+    color: black;
+    font-size: 18px;
+    border-collapse: collapse;
 }
 
 .base ul {
@@ -75,4 +79,14 @@
 
 .base li {
   font-family: Gantari;
+}
+
+.base footer {
+    padding: 15px;
+    color: black;
+    background-color: #707B9B;
+}
+
+html {
+    background-color: #CECEDF;
 }
