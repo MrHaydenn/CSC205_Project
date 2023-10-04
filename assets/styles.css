@@ -10,7 +10,7 @@
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
-  font-family: "Sarpanch", sans-serif;
+  font-family: "Sarpanch";
 }
 
 .topnav a:hover {
@@ -23,60 +23,54 @@
         color: black;
     }
 
-.image {
+.navimage {
   float: left;
   height: 35px;
   width: 35px;
   padding: 5px;
 }
 
-.title h1, h2 {
-    border: 0px solid #707B9B;
-    padding: 4px;
-    border-radius: 4px;
-    background-color: #dbdbe6;
-    font-family: "Sarpanch";
-}
-
-.title h1 {
+h1 {
+  border: 0px solid #707B9B;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #dbdbe6;
   font-family: "Sarpanch";
-  font-size: 2rem;
-  font-weight: 300;
-  color: black;
 }
 
-.title h2 {
+h2 {
+  border: 0px solid #707B9B;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #dbdbe6;
   font-family: "Sarpanch";
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: black;
 }
 
-.base p {
+p {
   font-family: "Gantari";
   margin: 0.5rem;
 }
 
-.base h3 {
+h3 {
   font-family: "Sarpanch";
 }
 
-.base td {
+td {
   font-family: Gantari;
   padding: 5px;
 }
 
-.base th {
+th {
   font-family: Gantari;
   padding: 5px;
 
 }
 
-.base tr:nth-child(even) {
+tr:nth-child(even) {
     background-color: #68688E;
 }
 
-.base table {
+table {
     border: 5px solid;
     border-color: #41416B;
     width: 100%;
@@ -88,15 +82,15 @@
     border-collapse: collapse;
 }
 
-.base ul {
+ul {
   font-family: Gantari;
 }
 
-.base li {
+li {
   font-family: Gantari;
 }
 
-.base footer {
+footer {
     padding: 15px;
     color: black;
     background-color: #707B9B;
