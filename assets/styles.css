@@ -38,8 +38,23 @@
     font-family: "Sarpanch";
 }
 
+.title h1 {
+  font-family: "Sarpanch";
+  font-size: 2rem;
+  font-weight: 300;
+  color: black;
+}
+
+.title h2 {
+  font-family: "Sarpanch";
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: black;
+}
+
 .base p {
   font-family: "Gantari";
+  margin: 0.5rem;
 }
 
 .base h3 {
