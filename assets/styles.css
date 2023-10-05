@@ -36,6 +36,9 @@ h1 {
   border-radius: 4px;
   background-color: #dbdbe6;
   font-family: "Sarpanch";
+  font-size: 2rem;
+  font-weight: 300;
+  color: #555;
 }
 
 h2 {
@@ -44,6 +47,9 @@ h2 {
   border-radius: 4px;
   background-color: #dbdbe6;
   font-family: "Sarpanch";
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #555;
 }
 
 p {
@@ -63,15 +69,24 @@ td {
 th {
   font-family: Gantari;
   padding: 5px;
+  background-color: rgb(67, 67, 67);
+  color: gold;
+  font-size: 18px;
 
+}
+
+th:nth-child(even) {
+  background-color: rgb(0, 0, 0);
+  color: black;
 }
 
 tr:nth-child(even) {
     background-color: #68688E;
+    color: rgb(50, 50, 50);
 }
 
 table {
-    border: 5px solid;
+    border: 1px solid;
     border-color: #41416B;
     width: 100%;
     text-align: center;
@@ -91,11 +106,34 @@ li {
 }
 
 footer {
-    padding: 15px;
+    padding: 14px 20px 14px 20px;
     color: black;
     background-color: #707B9B;
 }
 
 html {
+  color: black;
     background-color: #CECEDF;
+    font-family: Gantari;
+}
+
+.column {
+  display: flex;
+}
+
+.column .column1 {
+  flex: 0 0 60%;
+  border-right: solid #000288;
+  padding: 15px 20px 15px 20px;
+  box-sizing: border-box;
+}
+
+.column .column2 {
+  flex: 0 0 40%;
+  padding: 15px 20px 15px 20px;
+  box-sizing: border-box;
+}
+
+button {
+  font-family: Gantari;
 }
