@@ -37,7 +37,7 @@ h1 {
     padding: 4px;
     border-radius: 4px;
     background-color: #76987b;
-    font-family: "Sarpanch";
+    font-family: "Cambria Math";
     font-size: 2rem;
     font-weight: 300;
     color: #555;
@@ -48,37 +48,36 @@ h2 {
     padding: 4px;
     border-radius: 4px;
     background-color: #76987b;
-    font-family: "Sarpanch";
+    font-family: "Cambria Math";
     font-size: 1.5rem;
     font-weight: 400;
     color: #555;
 }
 
 hr {
-    background-color: black;
+    border: 2px dashed White;
 }
 
 p {
-  font-family: "Gantari";
-  margin: 0.5rem;
+    font-family: "Cambria Math";
+    margin: 0.5rem;
 }
 
 h3 {
-  font-family: "Sarpanch";
+    font-family: "Cambria Math";
 }
 
 td {
-  font-family: Gantari;
-  padding: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 5px;
 }
 
 th {
-  font-family: Gantari;
-  padding: 5px;
-  background-color: rgb(67, 67, 67);
-  color: gold;
-  font-size: 18px;
-
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 5px;
+    background-color: rgb(67, 67, 67);
+    color: gold;
+    font-size: 18px;
 }
 
 th:nth-child(even) {
@@ -97,18 +96,18 @@ table {
     width: 100%;
     text-align: center;
     padding: 10px;
-    background-color: #8282A6;
+    background-color: #7a7fa3;
     color: black;
     font-size: 18px;
     border-collapse: collapse;
 }
 
 ul {
-  font-family: Gantari;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 li {
-  font-family: Gantari;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 footer {
@@ -118,13 +117,14 @@ footer {
 }
 
 html {
-  color: black;
+    color: black;
     background-color: #aabfad;
-    font-family: Gantari;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .column {
   display: flex;
+
 }
 
 .column .column1 {
@@ -141,7 +141,7 @@ html {
 }
 
 button {
-    font-family: Gantari;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background-color: #698da4;
     padding: 24px 48px;
     font-size: 32px;
@@ -155,4 +155,18 @@ button {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    font-family: 'Cambria Math';
+}
+
+.Label1 {
+    float: left;
+}
+
+input {
+    float: left;
+    margin-top: 5px;
+}
+
+.LoginButton{
+    float: left;
 }
