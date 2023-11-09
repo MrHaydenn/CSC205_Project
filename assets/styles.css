@@ -1,10 +1,10 @@
 .topnav {
-    background-color: #41416B;
+    background-color: #76987b;
     overflow: hidden;
 }
 
 .topnav a {
-  float: left;
+  float: right;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -19,37 +19,43 @@
 }
 
     .topnav a.active {
-        background-color: #707B9B;
+        background-color: #286030;
         color: black;
     }
 
-.navimage {
-  float: left;
-  height: 35px;
-  width: 35px;
-  padding: 5px;
+.HeadImage {
+    display: block;
+    height: 200px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
 }
 
 h1 {
-  border: 0px solid #707B9B;
-  padding: 4px;
-  border-radius: 4px;
-  background-color: #dbdbe6;
-  font-family: "Sarpanch";
-  font-size: 2rem;
-  font-weight: 300;
-  color: #555;
+    border: 0px solid #286030;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #76987b;
+    font-family: "Sarpanch";
+    font-size: 2rem;
+    font-weight: 300;
+    color: #555;
 }
 
 h2 {
-  border: 0px solid #707B9B;
-  padding: 4px;
-  border-radius: 4px;
-  background-color: #dbdbe6;
-  font-family: "Sarpanch";
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: #555;
+    border: 0px solid #286030;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #76987b;
+    font-family: "Sarpanch";
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #555;
+}
+
+hr {
+    background-color: black;
 }
 
 p {
@@ -108,12 +114,12 @@ li {
 footer {
     padding: 14px 20px 14px 20px;
     color: black;
-    background-color: #707B9B;
+    background-color: #286030;
 }
 
 html {
   color: black;
-    background-color: #CECEDF;
+    background-color: #aabfad;
     font-family: Gantari;
 }
 
@@ -135,5 +141,18 @@ html {
 }
 
 button {
-  font-family: Gantari;
+    font-family: Gantari;
+    background-color: #698da4;
+    padding: 24px 48px;
+    font-size: 32px;
+    border-color: #698da4;
+}
+
+.Welcome {
+    color: #000000;
+    font-size: 48px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
