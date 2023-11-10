@@ -1,0 +1,168 @@
+.topnav {
+    background-color: #76987b;
+    overflow: hidden;
+}
+
+.topnav a {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: "Sarpanch";
+}
+
+.topnav a:hover {
+  background-color: black;
+  color: gold;
+}
+
+    .topnav a.active {
+        background-color: #286030;
+        color: black;
+    }
+
+.HeadImage {
+    display: block;
+    height: 200px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+}
+
+h1 {
+    border: 0px solid #286030;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #76987b;
+    font-family: "Cambria Math";
+    font-size: 2rem;
+    font-weight: 300;
+    color: #555;
+}
+
+h2 {
+    border: 0px solid #286030;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #76987b;
+    font-family: "Cambria Math";
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #555;
+}
+
+hr {
+    border: 2px dashed White;
+}
+
+p {
+    font-family: "Cambria Math";
+    margin: 0.5rem;
+}
+
+h3 {
+    font-family: "Cambria Math";
+}
+
+td {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 5px;
+}
+
+th {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 5px;
+    background-color: rgb(67, 67, 67);
+    color: gold;
+    font-size: 18px;
+}
+
+th:nth-child(even) {
+  background-color: rgb(0, 0, 0);
+  color: black;
+}
+
+tr:nth-child(even) {
+    background-color: #68688E;
+    color: rgb(50, 50, 50);
+}
+
+table {
+    border: 1px solid;
+    border-color: #41416B;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #7a7fa3;
+    color: black;
+    font-size: 18px;
+    border-collapse: collapse;
+}
+
+ul {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+li {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+footer {
+    padding: 14px 20px 14px 20px;
+    color: black;
+    background-color: #286030;
+}
+
+html {
+    color: black;
+    background-color: #aabfad;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.column {
+  display: flex;
+
+}
+
+.column .column1 {
+  flex: 0 0 60%;
+  border-right: solid #000288;
+  padding: 15px 20px 15px 20px;
+  box-sizing: border-box;
+}
+
+.column .column2 {
+  flex: 0 0 40%;
+  padding: 15px 20px 15px 20px;
+  box-sizing: border-box;
+}
+
+button {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #698da4;
+    padding: 24px 48px;
+    font-size: 32px;
+    border-color: #698da4;
+}
+
+.Welcome {
+    color: #000000;
+    font-size: 48px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: 'Cambria Math';
+}
+
+.Label1 {
+    float: left;
+}
+
+.logoutButton {
+    font-size: 14px;
+    padding: 4px 24px;
+}

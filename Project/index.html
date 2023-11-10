@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Football Thingy</title>
+</head>
+
+<body>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarpanch">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css>Gantari">
+    <link rel="stylesheet" href="./assets/styles.css">
+
+    <img class="HeadImage" src="./assets/images/HeadImage.png" alt="Header" onclick="">
+
+    <br />
+        <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
+    <nav class="topnav">
+        <div>
+            <a class="active" href="./index.html">Home</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+        </div>
+        <h3 id="userID"></h3>
+    </nav>
+
+    <br />
+    <form id="login-form">
+        <div><label for="username">UserID:</label>
+            <input id="username" name="username" required></div>
+        <div><label for="password">Password:</label>
+            <input type="password" id="password" name="password" required></div>
+        <button class="LoginButton" type="submit">Login</button>
+    </form>
+    <div id="message"></div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <header>
+        <p class="Welcome">Welcome!</p>
+    </header>
+
+    <hr />
+
+    <div class="column">
+        <div class="column1">
+            <h3>About Us</h3>
+            <p>We are an enclave of top tier football experts. Girded with the passion for brain damaging activities, we provide detailed, accurate information about all things football oriented.</p>
+            <h3>Our Mission</h3>
+            <p>Our mission is simple: to foster an unhealthy obsession for sports. If it's not an all-encompassing idol, you belong somewhere else. If your marriage is not strained by a blooming love for football, you aren't invested enough.'</p>
+            <h3>Join Us</h3>
+            <p>We encourage you to join us in our conquest to convert the world to football obsession. Soon, yards shall be composed of football turf, and every street lamp will be repurposed into a goal post. What are you waiting for? If you don't join us, you will be tackled by our special operations team (for legal purposes, that is not a threat).</p>
+        </div>
+        <div class="column2">
+            <h3>What We Offer</h3>
+            <ul>
+                <li><b>Comprehensive Player and Team Profiles:</b> Dive deep into the backgrounds, achievements, and histories of your favorite players and teams from various esports titles.</li>
+                <li><b>Tournament Coverage:</b> Stay updated with the latest tournament results, match summaries, and in-depth analysis of key moments that shape the esports landscape.</li>
+                <li><b>Game Guides and Strategies:</b> Whether you're looking to improve your skills or understand the strategies behind the games, our guides and articles have you covered.</li>
+                <li><b>News and Updates:</b> Stay in the loop with the latest esports news, roster changes, and industry developments.</li>
+                <li><b>Community Engagement:</b> We value your input and engagement. Connect with fellow esports enthusiasts, share your opinions, and participate in discussions on our platform.</li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <h2>Extra information</h2>
+        <p>
+            <button>Email</button>
+            <button>Help</button>
+            <button>Chat</button>
+        </p>
+        <p>
+            Conditions Of Use
+        </p>
+        <p>
+            Privacy Notice
+        </p>
+        <p>
+            Your Ads
+        </p>
+        <p>
+            1996-2023, Devious Publishing, Inc
+        </p>
+    </footer>
+
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedUsername = localStorage.getItem('loggedInUser');
+            const logoutButton = document.getElementById('logoutButton');
+            const userIDElement = document.getElementById('userID');
+            const loginForm = document.getElementById('login-form');
+
+            if (storedUsername) {
+                userIDElement.textContent = 'User ID: ' + storedUsername;
+
+                if (loginForm) {
+                    loginForm.remove();
+                }
+
+                logoutButton.style.display = 'block';
+
+                logoutButton.addEventListener('click', function () {
+                    localStorage.removeItem('loggedInUser');
+                    location.reload();
+                    //removes stored user data
+                });
+            } else {
+                if (logoutButton) {
+                    logoutButton.style.display = 'none';
+                }
+            }
+        });
+
+        const loginForm = document.getElementById('login-form');
+        const messageDiv = document.getElementById('message');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await axios.get('http://football.cscprof.com/coaches');
+
+                const coachesData = response.data;
+                const foundCoach = coachesData.find(coach => coach.userID === username && coach.Password === password);
+
+                if (foundCoach) {
+                    messageDiv.textContent = 'Logged In.';
+
+                    localStorage.setItem('loggedInUser', username);
+
+                    const userIDElement = document.getElementById('userID');
+                    userIDElement.textContent = username;
+
+                    if (loginForm) {
+                        loginForm.remove();
+                    }
+
+                    const logoutButton = document.getElementById('logoutButton');
+                    if (logoutButton) {
+                        logoutButton.style.display = 'block';
+                    }
+                } else {
+                    messageDiv.textContent = 'Wrong username or password.';
+                }
+            } catch (error) {
+                console.error(error);
+                messageDiv.textContent = 'Error connecting to the database';
+            }
+        });
+    </script>
+</body>
+
+</html>
