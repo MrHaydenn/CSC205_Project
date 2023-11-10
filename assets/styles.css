@@ -162,11 +162,7 @@ button {
     float: left;
 }
 
-input {
-    float: left;
-    margin-top: 5px;
-}
-
-.LoginButton{
-    float: left;
+.logoutButton {
+    font-size: 14px;
+    padding: 4px 24px;
 }
