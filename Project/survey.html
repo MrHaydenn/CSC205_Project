@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Football Thingy</title>
+</head>
+
+<body>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarpanch">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css>Gantari">
+    <link rel="stylesheet" href="./assets/styles.css">
+
+    <img class="HeadImage" src="./assets/images/HeadImage.png" alt="Header" onclick="">
+
+    <br />
+        <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
+    <nav class="topnav">
+        <div>
+            <a href="./index.html">Home</a>
+            <a class="active" href="./survey.html">Survey</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+            <a href="TEMP">TEMP</a>
+        </div>
+        <h3 id="userID"></h3>
+    </nav>
+
+    <br />
+    <form id="login-form">
+        <div><label for="username">UserID:</label>
+            <input id="username" name="username" required></div>
+        <div><label for="password">Password:</label>
+            <input type="password" id="password" name="password" required></div>
+        <button class="LoginButton" type="submit">Login</button>
+    </form>
+    <div id="message"></div>
+
+
+    <div>
+        Chart Data 
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <footer>
+        <h2>Extra information</h2>
+        <p>
+            <button>Email</button>
+            <button>Help</button>
+            <button>Chat</button>
+        </p>
+        <p>
+            Conditions Of Use
+        </p>
+        <p>
+            Privacy Notice
+        </p>
+        <p>
+            Your Ads
+        </p>      <p>
+            1996-2023, Devious Publishing, Inc
+        </p>
+    </footer>
+
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedUsername = localStorage.getItem('loggedInUser');
+            const logoutButton = document.getElementById('logoutButton');
+            const userIDElement = document.getElementById('userID');
+            const loginForm = document.getElementById('login-form');
+
+            if (storedUsername) {
+                userIDElement.textContent = 'User ID: ' + storedUsername;
+
+                if (loginForm) {
+                    loginForm.remove();
+                }
+
+                logoutButton.style.display = 'block';
+
+                logoutButton.addEventListener('click', function () {
+                    localStorage.removeItem('loggedInUser');
+                    location.reload();
+                    //removes stored user data
+                });
+            } else {
+                if (logoutButton) {
+                    logoutButton.style.display = 'none';
+                }
+            }
+        });
+
+        const loginForm = document.getElementById('login-form');
+        const messageDiv = document.getElementById('message');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await axios.get('http://football.cscprof.com/coaches');
+
+                const coachesData = response.data;
+                const foundCoach = coachesData.find(coach => coach.userID === username && coach.Password === password);
+
+                if (foundCoach) {
+                    messageDiv.textContent = 'Logged In.';
+
+                    localStorage.setItem('loggedInUser', username);
+
+                    const userIDElement = document.getElementById('userID');
+                    userIDElement.textContent = username;
+
+                    if (loginForm) {
+                        loginForm.remove();
+                    }
+
+                    const logoutButton = document.getElementById('logoutButton');
+                    if (logoutButton) {
+                        logoutButton.style.display = 'block';
+                    }
+                } else {
+                    messageDiv.textContent = 'Wrong username or password.';
+                }
+            } catch (error) {
+                console.error(error);
+                messageDiv.textContent = 'Error connecting to the database';
+            }
+        });
+    </script>
+    </body>
+</html>
