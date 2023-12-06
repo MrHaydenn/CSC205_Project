@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Football Thingy</title>
 </head>
 
@@ -40,11 +41,34 @@
     </form>
     <div id="message"></div>
 
-
+<body>
     <div>
-        Chart Data 
-    </div>
+        <canvas id="myChart"></canvas>
 
+        <script>
+            // Get the canvas element
+            var ctx = document.getElementById('myChart').getContext('2d');
+    
+            // Create your chart
+            var myChart = new Chart(ctx, {
+                type: 'bar', // specify the type of chart (bar, line, pie, etc.)
+                data: {
+                    labels: ['Label 1', 'Label 2', 'Label 3'], // your data labels
+                    datasets: [{
+                        label: 'My Dataset',
+                        data: [10, 20, 30], // your data values
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // background color
+                        borderColor: 'rgba(75, 192, 192, 1)', // border color
+                        borderWidth: 1 // border width
+                    }]
+                },
+                options: {
+                    // additional options
+                }
+            });
+        </script>
+    </div>
+</body>
 
 
 
@@ -83,11 +107,12 @@
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+          document.addEventListener('DOMContentLoaded', function () {
             const storedUsername = localStorage.getItem('loggedInUser');
             const logoutButton = document.getElementById('logoutButton');
             const userIDElement = document.getElementById('userID');
             const loginForm = document.getElementById('login-form');
+            const currentPage = window.location.pathname;
 
             if (storedUsername) {
                 userIDElement.textContent = 'User ID: ' + storedUsername;
@@ -101,11 +126,16 @@
                 logoutButton.addEventListener('click', function () {
                     localStorage.removeItem('loggedInUser');
                     location.reload();
-                    //removes stored user data
+                    // removes stored user data
                 });
             } else {
                 if (logoutButton) {
                     logoutButton.style.display = 'none';
+                }
+
+                // If user is not logged in and tries to access a page other than index.html, redirect to index.html
+                if (currentPage !== 'index.html') {
+                    window.location.replace('index.html');
                 }
             }
         });

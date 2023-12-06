@@ -98,11 +98,12 @@
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function () {
             const storedUsername = localStorage.getItem('loggedInUser');
             const logoutButton = document.getElementById('logoutButton');
             const userIDElement = document.getElementById('userID');
             const loginForm = document.getElementById('login-form');
+            const currentPage = window.location.pathname;
 
             if (storedUsername) {
                 userIDElement.textContent = 'User ID: ' + storedUsername;
@@ -116,7 +117,7 @@
                 logoutButton.addEventListener('click', function () {
                     localStorage.removeItem('loggedInUser');
                     location.reload();
-                    //removes stored user data
+                    // removes stored user data
                 });
             } else {
                 if (logoutButton) {
