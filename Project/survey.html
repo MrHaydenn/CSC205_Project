@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Football Thingy</title>
 
 </head>
@@ -45,12 +46,16 @@
     </form>
     <div id="message"></div>
 
+    <<<<<<< HEAD
     <br />
     <br />
 
     <div>
         Chart Data
     </div>
+
+
+
 
     <footer>
         <h2>Extra information</h2>
@@ -72,16 +77,14 @@
         </p>
     </footer>
 
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+          document.addEventListener('DOMContentLoaded', function () {
             const storedUsername = localStorage.getItem('loggedInUser');
             const logoutButton = document.getElementById('logoutButton');
             const userIDElement = document.getElementById('userID');
             const loginForm = document.getElementById('login-form');
+            const currentPage = window.location.pathname;
 
             if (storedUsername) {
                 userIDElement.textContent = 'User ID: ' + storedUsername;
@@ -95,11 +98,16 @@
                 logoutButton.addEventListener('click', function () {
                     localStorage.removeItem('loggedInUser');
                     location.reload();
-                    //removes stored user data
+                    // removes stored user data
                 });
             } else {
                 if (logoutButton) {
                     logoutButton.style.display = 'none';
+                }
+
+                // If user is not logged in and tries to access a page other than index.html, redirect to index.html
+                if (currentPage !== 'index.html') {
+                    window.location.replace('index.html');
                 }
             }
         });
