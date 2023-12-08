@@ -4,9 +4,10 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Football Thingy</title>
+
 </head>
 
-<body>
+<body onload="BootFunction()">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarpanch">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css>Gantari">
@@ -15,7 +16,7 @@
     <img class="HeadImage" src="./assets/images/HeadImage.png" alt="Header" onclick="">
 
     <br />
-        <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
+    <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
     <nav class="topnav">
         <div>
             <a href="./index.html">Home</a>
@@ -32,14 +33,17 @@
 
     <br />
     <form id="login-form">
-        <div><label for="username">UserID:</label>
-            <input id="username" name="username" required></div>
-        <div><label for="password">Password:</label>
-            <input type="password" id="password" name="password" required></div>
+        <div>
+            <label for="username">UserID:</label>
+            <input id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
         <button class="LoginButton" type="submit">Login</button>
     </form>
     <div id="message"></div>
-
 
 <header>
             <label>Average Numbers of the Coaches Survey Scores</label>
@@ -128,17 +132,10 @@
                 });
         });
         </script>
+
+    <div>
+        Chart Data
     </div>
-</body>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -163,9 +160,6 @@
         </p>
     </footer>
 
-
-
-    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -232,6 +226,9 @@
                     if (logoutButton) {
                         logoutButton.style.display = 'block';
                     }
+
+                    BootFunction();
+
                 } else {
                     messageDiv.textContent = 'Wrong username or password.';
                 }
@@ -240,6 +237,38 @@
                 messageDiv.textContent = 'Error connecting to the database';
             }
         });
+
+        async function BootFunction() {
+
+            const _Response = await axios.get('http://football.cscprof.com/coaches');
+
+            const coachesData = _Response.data;
+
+            var _CurrentCoachData = coachesData[0];
+
+            if (localStorage.getItem('loggedInUser') == null) return;
+
+            for (var i = 0; i < coachesData.length; i++) {
+                if (coachesData[i].userID == localStorage.getItem('loggedInUser')) {
+                    console.log(coachesData[i]);
+                    _CurrentCoachData = coachesData[i];
+                }
+            }
+
+            if (_CurrentCoachData.AccessLevel == 1) {
+                window.location.href = 'AssistantCoachView.html';
+            } else if (_CurrentCoachData.AccessLevel == 2) {
+                window.location.href = 'HeadCoachView.html';
+            } else if (_CurrentCoachData.AccessLevel == 3) {
+                window.location.href = 'CoordView.html';
+            }
+            
+            
+        }
+        
+
+
+
     </script>
-    </body>
+</body>
 </html>

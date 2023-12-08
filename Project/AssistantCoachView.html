@@ -3,9 +3,10 @@
 
 <head>
     <title>Football Thingy</title>
+
 </head>
 
-<body>
+<body onload="BootFunction()">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarpanch">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css>Gantari">
@@ -14,11 +15,11 @@
     <img class="HeadImage" src="./assets/images/HeadImage.png" alt="Header" onclick="">
 
     <br />
-        <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
+    <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
     <nav class="topnav">
         <div>
-            <a class="active" href="./index.html">Home</a>
-            <a href="./survey.html">Survey</a>
+            <a href="./index.html">Home</a>
+            <a class="active" href="./survey.html">Survey</a>
             <a href="TEMP">TEMP</a>
             <a href="TEMP">TEMP</a>
             <a href="TEMP">TEMP</a>
@@ -32,47 +33,52 @@
 
     <br />
     <form id="login-form">
-        <div><label for="username">UserID:</label>
-            <input id="username" name="username" required></div>
-        <div><label for="password">Password:</label>
-            <input type="password" id="password" name="password" required></div>
+        <div>
+            <label for="username">UserID:</label>
+            <input id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
         <button class="LoginButton" type="submit">Login</button>
     </form>
     <div id="message"></div>
 
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <br />
 
-    <header>
-        <p class="Welcome">Welcome!</p>
-    </header>
-
-    <hr />
-
-    <div class="column">
-        <div class="column1">
-            <h3>About Us</h3>
-            <p>We are an enclave of top tier football experts. Girded with the passion for brain damaging activities, we provide detailed, accurate information about all things football oriented.</p>
-            <h3>Our Mission</h3>
-            <p>Our mission is simple: to foster an unhealthy obsession for sports. If it's not an all-encompassing idol, you belong somewhere else. If your marriage is not strained by a blooming love for football, you aren't invested enough.'</p>
-            <h3>Join Us</h3>
-            <p>We encourage you to join us in our conquest to convert the world to football obsession. Soon, yards shall be composed of football turf, and every street lamp will be repurposed into a goal post. What are you waiting for? If you don't join us, you will be tackled by our special operations team (for legal purposes, that is not a threat).</p>
-        </div>
-        <div class="column2">
-            <h3>What We Offer</h3>
-            <ul>
-                <li><b>Comprehensive Player and Team Profiles:</b> Dive deep into the backgrounds, achievements, and histories of your favorite players and teams.</li>
-                <li><b>Tournament Coverage:</b> Stay updated with the latest tournament results, match summaries, and in-depth analysis of key moments that shape the football landscape.</li>
-                <li><b>Game Guides and Strategies:</b> Whether you're looking to improve your skills or understand the strategies behind the games, our guides and articles have you covered.</li>
-                <li><b>News and Updates:</b> Stay in the loop with the latest football news, roster changes, and industry developments.</li>
-                <li><b>Community Engagement:</b> We value your input and engagement. Connect with fellow football enthusiasts, share your opinions, and participate in discussions on our platform.</li>
-            </ul>
-        </div>
+    <div>
+        Chart Data
     </div>
+
+    <div>
+        <canvas id="myChart"></canvas>
+
+        <script>
+            // Get the canvas element
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            // Create your chart
+            var myChart = new Chart(ctx, {
+                type: 'bar', // specify the type of chart (bar, line, pie, etc.)
+                data: {
+                    labels: ['Label 1', 'Label 2', 'Label 3'], // your data labels
+                    datasets: [{
+                        label: 'My Dataset',
+                        data: [10, 20, 30], // your data values
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // background color
+                        borderColor: 'rgba(75, 192, 192, 1)', // border color
+                        borderWidth: 1 // border width
+                    }]
+                },
+                options: {
+                    // additional options
+                }
+            });
+        </script>
+    </div>
+
     <footer>
         <h2>Extra information</h2>
         <p>
@@ -92,6 +98,9 @@
             1996-2023, Devious Publishing, Inc
         </p>
     </footer>
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -161,9 +170,25 @@
                 messageDiv.textContent = 'Error connecting to the database';
             }
         });
+
+        async function BootFunction() {
+
+            const _Response = await axios.get('http://football.cscprof.com/coaches');
+
+            const coachesData = _Response.data;
+
+            if (localStorage.getItem('loggedInUser') == null) {
+                window.location.href = 'survey.html';
+            }
+
+            console.log(coachesData);
+
+
+        }
+
+
+
+
     </script>
-
 </body>
-
 </html>
-
