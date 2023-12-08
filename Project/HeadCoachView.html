@@ -34,7 +34,6 @@
     </form>
     <div id="message"></div>
 
-
 <header>
             <label>Average Numbers of the Coaches Survey Scores</label>
 </header>
@@ -121,6 +120,110 @@
                     console.error('Error fetching data:', error);
                 });
         });
+        <canvas id="pChart" width="800" height="400"></canvas>
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', async function () {
+
+                const _Response = await axios.get('http://football.cscprof.com/coaches');
+
+                const coachesData = _Response.data;
+
+                for (var i = 0; i < coachesData.length; i++) {
+                    if (coachesData[i].userID == localStorage.getItem('loggedInUser')) {
+                        _CurrentCoachData = coachesData[i];
+                    }
+                }
+
+                var _SurveyData = [];
+
+                console.log(_CurrentCoachData.coachID);
+
+                var _String = 'http://football.cscprof.com/coaches/' + _CurrentCoachData.coachID + '/answers';
+
+                console.log(_String);
+
+                const _Response2 = await axios.get(_String)
+
+                _SurveyData = _Response2.data;
+
+                const _Answers = _SurveyData.answers;
+
+                console.log(_Answers);
+
+                var _ChartData = [];
+
+                for (var i = 1; i < 5; i++) {
+
+                    var _AverageScore = [];
+
+                    for (var j = 0; j < 18; j++) {
+
+                        if (parseInt(_Answers[j].Answer) == i) {
+                            _AverageScore.push(parseInt(_Answers[j].Answer));
+                        }
+
+                    }
+
+                    console.log(_AverageScore);
+
+                    _ChartData[i] = calculateAverage(_AverageScore);
+
+
+
+                }
+
+                const chartData = {
+                    labels: ["Red", "2 points", "3 points", "4 points"],
+                    datasets: [{
+                        label: 'Distribution of scores',
+                        data: _ChartData,
+                        backgroundColor: 'rgb(255, 215, 0)',
+                        borderColor: 'rgb(0, 0, 0)',
+                        borderWidth: 1
+                    }]
+                };
+
+                const ctx = document.getElementById('pChart').getContext('2d');
+                const scatterChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                title: {
+                                    display: true,
+                                    text: 'SurveyID',
+                                    fontSize: 14,
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Score',
+                                    fontSize: 14,
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+
+            function calculateAverage(array) {
+                var sum = 0;
+                for (var i = 0; i < array.length; i++) {
+                    sum += array[i];
+                }
+                return sum / array.length;
+            } 
+       
         </script>
     </div>
 </body>
@@ -234,6 +337,18 @@
                 messageDiv.textContent = 'Error connecting to the database';
             }
         });
+
+        async function BootFunction() {
+
+
+
+            if (localStorage.getItem('loggedInUser') == null) {
+                window.location.href = 'survey.html';
+            }
+
+
+        }
+
     </script>
     </body>
 </html>

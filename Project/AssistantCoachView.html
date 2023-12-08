@@ -35,6 +35,7 @@
     <div id="message"></div>
 
 
+
 <header>
             <label>Average Numbers of the Coaches Survey Scores</label>
 </header>
@@ -121,6 +122,84 @@
                     console.error('Error fetching data:', error);
                 });
         });
+        <canvas id="scatterChart" width="800" height="400"></canvas>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                axios.get('http://football.cscprof.com/answers')
+                    .then(response => {
+                        const answers = response.data;
+
+                        const surveyAverages = {};
+                        answers.forEach(answer => {
+                            const surveyID = answer.SurveyNumber;
+                            const answerValue = parseFloat(answer.Answer);
+
+                            if (!isNaN(answerValue)) {
+                                if (!surveyAverages[surveyID]) {
+                                    surveyAverages[surveyID] = { sum: 0, count: 0 };
+                                }
+
+                                surveyAverages[surveyID].sum += answerValue;
+                                surveyAverages[surveyID].count += 1;
+                            }
+                        });
+
+                        const averageData = Object.keys(surveyAverages).map(surveyID => {
+                            const average = surveyAverages[surveyID].sum / surveyAverages[surveyID].count;
+                            return { surveyID: parseInt(surveyID), average };
+                        });
+
+                        averageData.sort((a, b) => a.surveyID - b.surveyID);
+
+                        const chartData = {
+                            labels: averageData.map(data => data.surveyID),
+                            datasets: [{
+                                label: 'Average Scores for Our Coaches (Out of 4)',
+                                data: averageData.map(data => ({
+                                    x: data.surveyID,
+                                    y: data.average
+                                })),
+                                backgroundColor: 'rgb(255, 215, 0)',
+                                borderColor: 'rgb(0, 0, 0)',
+                                borderWidth: 1
+                            }]
+                        };
+
+                        const ctx = document.getElementById('scatterChart').getContext('2d');
+                        const scatterChart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: chartData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: {
+                                        type: 'linear',
+                                        position: 'bottom',
+                                        title: {
+                                            display: true,
+                                            text: 'SurveyID',
+                                            fontSize: 14,
+                                        }
+                                    },
+                                    y: {
+                                        type: 'linear',
+                                        position: 'left',
+                                        title: {
+                                            display: true,
+                                            text: 'Score',
+                                            fontSize: 14,
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            });
         </script>
     </div>
 </body>
