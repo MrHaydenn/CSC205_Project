@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Football Thingy</title>
 
 </head>
@@ -45,36 +46,96 @@
     </form>
     <div id="message"></div>
 
-    <br />
-    <br />
+    <header>
+        <select type=text list=value>
+                <option>content</option>
+                <option>content</option>
+                <option>content</option>
+                <option>content</option>
+                <option>content</option>
+        </select>
+
+        <label>This Type of Chart</label>
+    </header>
 
     <div>
-        Chart Data
-    </div>
-
-    <div>
-        <canvas id="myChart"></canvas>
+        <canvas id="scatterChart" width="800" height="400"></canvas>
 
         <script>
-            // Get the canvas element
-            var ctx = document.getElementById('myChart').getContext('2d');
+            document.addEventListener('DOMContentLoaded', function () {
+                axios.get('http://football.cscprof.com/answers')
+                    .then(response => {
+                        const answers = response.data;
 
-            // Create your chart
-            var myChart = new Chart(ctx, {
-                type: 'bar', // specify the type of chart (bar, line, pie, etc.)
-                data: {
-                    labels: ['Label 1', 'Label 2', 'Label 3'], // your data labels
-                    datasets: [{
-                        label: 'My Dataset',
-                        data: [10, 20, 30], // your data values
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // background color
-                        borderColor: 'rgba(75, 192, 192, 1)', // border color
-                        borderWidth: 1 // border width
-                    }]
-                },
-                options: {
-                    // additional options
-                }
+                        const surveyAverages = {};
+                        answers.forEach(answer => {
+                            const surveyID = answer.SurveyNumber;
+                            const answerValue = parseFloat(answer.Answer);
+
+                            if (!isNaN(answerValue)) {
+                                if (!surveyAverages[surveyID]) {
+                                    surveyAverages[surveyID] = { sum: 0, count: 0 };
+                                }
+
+                                surveyAverages[surveyID].sum += answerValue;
+                                surveyAverages[surveyID].count += 1;
+                            }
+                        });
+
+                        const averageData = Object.keys(surveyAverages).map(surveyID => {
+                            const average = surveyAverages[surveyID].sum / surveyAverages[surveyID].count;
+                            return { surveyID: parseInt(surveyID), average };
+                        });
+
+                        averageData.sort((a, b) => a.surveyID - b.surveyID);
+
+                        const chartData = {
+                            labels: averageData.map(data => data.surveyID),
+                            datasets: [{
+                                label: 'Average Scores for Our Coaches (Out of 4)',
+                                data: averageData.map(data => ({
+                                    x: data.surveyID,
+                                    y: data.average
+                                })),
+                                backgroundColor: 'rgb(255, 215, 0)',
+                                borderColor: 'rgb(0, 0, 0)',
+                                borderWidth: 1
+                            }]
+                        };
+
+                        const ctx = document.getElementById('scatterChart').getContext('2d');
+                        const scatterChart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: chartData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: {
+                                        type: 'linear',
+                                        position: 'bottom',
+                                        title: {
+                                            display: true,
+                                            text: 'SurveyID',
+                                            fontSize: 14,
+                                        }
+                                    },
+                                    y: {
+                                        type: 'linear',
+                                        position: 'left',
+                                        title: {
+                                            display: true,
+                                            text: 'Score',
+                                            fontSize: 14,
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
             });
         </script>
     </div>
