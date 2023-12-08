@@ -19,9 +19,8 @@
     <nav class="topnav">
         <div>
             <a href="./index.html">Home</a>
-            <a class="active" href="./survey.html">Survey</a>
-            <a href="TEMP">TEMP</a>
-            <a href="TEMP">TEMP</a>
+            <a class="active" href="./survey.html">Coach Survey</a>
+            <a href="TEMP">Team Data</a>
             <a href="TEMP">TEMP</a>
             <a href="TEMP">TEMP</a>
             <a href="TEMP">TEMP</a>
@@ -43,24 +42,14 @@
 
 
 <header>
-    <select type=text list=value>
-    <datalist>
-        <option>content</option>
-        <option>content</option>
-        <option>content</option>
-        <option>content</option>
-        <option>content</option>
-    </datalist>
-    </select>
-
-            <label>This Type of Chart</label>
+            <label>Average Numbers of the Coaches Survey Scores</label>
 </header>
 
 
 
 <body>
     <div>
-        <canvas id="scatterChart" width="800" height="400"></canvas>
+        <canvas id="scatterChart" height="400"></canvas>
 
         <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -93,12 +82,12 @@
                     const chartData = {
                         labels: averageData.map(data => data.surveyID),
                         datasets: [{
-                            label: 'Average Scores for Our Coaches (Out of 4)',
+                            label: 'Coaches Scores',
                             data: averageData.map(data => ({
                                 x: data.surveyID,
                                 y: data.average
                             })),
-                            backgroundColor: 'rgb(255, 215, 0)',
+                            backgroundColor: 'rgb(54, 40, 16)',
                             borderColor: 'rgb(0, 0, 0)',
                             borderWidth: 1
                         }]
@@ -205,7 +194,7 @@
                     logoutButton.style.display = 'none';
                 }
 
-                // If user is not logged in and tries to access a page other than index.html, redirect to index.html
+                // If user is not logged in and tries to redirect to index.html]
                 if (currentPage !== 'index.html') {
                     window.location.replace('index.html');
                 }
