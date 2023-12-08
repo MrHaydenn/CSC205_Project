@@ -123,6 +123,67 @@
         });
         </script>
     </div>
+    <div>
+        <canvas id="loggedInCoachChart" height="400"></canvas>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Logged In Coach
+
+            const loggedInCoachID = localStorage.getItem('loggedInUser');
+            axios.get(`http://football.cscprof.com/answers?coachID=${loggedInCoachID}`)
+                .then(response => {
+                    const loggedInCoachAnswers = response.data;
+
+                    const loggedInCoachChartData = {
+                        labels: loggedInCoachAnswers.map(answer => answer.SurveyNumber),
+                        datasets: [{
+                            label: 'Your Scores',
+                            data: loggedInCoachAnswers.map(answer => ({
+                                x: answer.SurveyNumber,
+                                y: parseFloat(answer.Answer)
+                            })),
+                            backgroundColor: 'rgb(75, 192, 192)',
+                            borderColor: 'rgb(0, 0, 0)',
+                            borderWidth: 1
+                        }]
+                    };
+
+                    const loggedInCoachCtx = document.getElementById('loggedInCoachChart').getContext('2d');
+                    const loggedInCoachScatterChart = new Chart(loggedInCoachCtx, {
+                        type: 'scatter',
+                        data: loggedInCoachChartData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    type: 'linear',
+                                    position: 'bottom',
+                                    title: {
+                                        display: true,
+                                        text: 'SurveyID',
+                                        fontSize: 14,
+                                    }
+                                },
+                                y: {
+                                    type: 'linear',
+                                    position: 'left',
+                                    title: {
+                                        display: true,
+                                        text: 'Your Score',
+                                        fontSize: 14,
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data for the logged-in coach:', error);
+                });
+        });
+    </script>
 </body>
 
 
