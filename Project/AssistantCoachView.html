@@ -52,6 +52,33 @@
         Chart Data
     </div>
 
+    <div>
+        <canvas id="myChart"></canvas>
+
+        <script>
+            // Get the canvas element
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            // Create your chart
+            var myChart = new Chart(ctx, {
+                type: 'bar', // specify the type of chart (bar, line, pie, etc.)
+                data: {
+                    labels: ['Label 1', 'Label 2', 'Label 3'], // your data labels
+                    datasets: [{
+                        label: 'My Dataset',
+                        data: [10, 20, 30], // your data values
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // background color
+                        borderColor: 'rgba(75, 192, 192, 1)', // border color
+                        borderWidth: 1 // border width
+                    }]
+                },
+                options: {
+                    // additional options
+                }
+            });
+        </script>
+    </div>
+
     <footer>
         <h2>Extra information</h2>
         <p>
@@ -155,10 +182,10 @@
             }
 
             console.log(coachesData);
-            
-            
+
+
         }
-        
+
 
 
 
