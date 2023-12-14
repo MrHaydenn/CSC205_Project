@@ -15,7 +15,7 @@
     <img class="HeadImage" src="./assets/images/HeadImage.png" alt="Header" onclick="">
 
     <br />
-        <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
+    <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
     <nav class="topnav">
         <div>
             <a href="./index.html">Home</a>
@@ -26,115 +26,120 @@
 
     <br />
     <form id="login-form">
-        <div><label for="username">UserID:</label>
-            <input id="username" name="username" required></div>
-        <div><label for="password">Password:</label>
-            <input type="password" id="password" name="password" required></div>
+        <div>
+            <label for="username">UserID:</label>
+            <input id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
         <button class="LoginButton" type="submit">Login</button>
     </form>
     <div id="message"></div>
 
 
-<header>
-            <label>Average Numbers of the Coaches Survey Scores</label>
-</header>
+    <header>
+        <label>Average Numbers of the Coaches Survey Scores</label>
+    </header>
+
+
+    <div class="container">
+        <h1>Questions</h1>
+
+        <table class="table">
+            <thead>
+                <tr id="trth"></tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+
+    </div>
 
 
 
-<body>
     <div>
         <canvas id="scatterChart" height="400"></canvas>
 
         <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            axios.get('http://football.cscprof.com/answers')
-                .then(response => {
-                    const answers = response.data;
+            document.addEventListener('DOMContentLoaded', function () {
+                axios.get('http://football.cscprof.com/answers')
+                    .then(response => {
+                        const answers = response.data;
 
-                    const surveyAverages = {};
-                    answers.forEach(answer => {
-                        const surveyID = answer.SurveyNumber;
-                        const answerValue = parseFloat(answer.Answer);
+                        const surveyAverages = {};
+                        answers.forEach(answer => {
+                            const surveyID = answer.SurveyNumber;
+                            const answerValue = parseFloat(answer.Answer);
 
-                        if (!isNaN(answerValue)) {
-                            if (!surveyAverages[surveyID]) {
-                                surveyAverages[surveyID] = { sum: 0, count: 0 };
+                            if (!isNaN(answerValue)) {
+                                if (!surveyAverages[surveyID]) {
+                                    surveyAverages[surveyID] = { sum: 0, count: 0 };
+                                }
+
+                                surveyAverages[surveyID].sum += answerValue;
+                                surveyAverages[surveyID].count += 1;
                             }
+                        });
 
-                            surveyAverages[surveyID].sum += answerValue;
-                            surveyAverages[surveyID].count += 1;
-                        }
-                    });
+                        const averageData = Object.keys(surveyAverages).map(surveyID => {
+                            const average = surveyAverages[surveyID].sum / surveyAverages[surveyID].count;
+                            return { surveyID: parseInt(surveyID), average };
+                        });
 
-                    const averageData = Object.keys(surveyAverages).map(surveyID => {
-                        const average = surveyAverages[surveyID].sum / surveyAverages[surveyID].count;
-                        return { surveyID: parseInt(surveyID), average };
-                    });
+                        averageData.sort((a, b) => a.surveyID - b.surveyID);
 
-                    averageData.sort((a, b) => a.surveyID - b.surveyID);
+                        const chartData = {
+                            labels: averageData.map(data => data.surveyID),
+                            datasets: [{
+                                label: 'Coaches Scores',
+                                data: averageData.map(data => ({
+                                    x: data.surveyID,
+                                    y: data.average
+                                })),
+                                backgroundColor: 'rgb(54, 40, 16)',
+                                borderColor: 'rgb(0, 0, 0)',
+                                borderWidth: 1
+                            }]
+                        };
 
-                    const chartData = {
-                        labels: averageData.map(data => data.surveyID),
-                        datasets: [{
-                            label: 'Coaches Scores',
-                            data: averageData.map(data => ({
-                                x: data.surveyID,
-                                y: data.average
-                            })),
-                            backgroundColor: 'rgb(54, 40, 16)',
-                            borderColor: 'rgb(0, 0, 0)',
-                            borderWidth: 1
-                        }]
-                    };
-
-                    const ctx = document.getElementById('scatterChart').getContext('2d');
-                    const scatterChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: chartData,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                x: {
-                                    type: 'linear',
-                                    position: 'bottom',
-                                    title: {
-                                        display: true,
-                                        text: 'SurveyID',
-                                        fontSize: 14,
-                                    }
-                                },
-                                y: {
-                                    type: 'linear',
-                                    position: 'left',
-                                    title: {
-                                        display: true,
-                                        text: 'Score',
-                                        fontSize: 14,
+                        const ctx = document.getElementById('scatterChart').getContext('2d');
+                        const scatterChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: chartData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: {
+                                        type: 'linear',
+                                        position: 'bottom',
+                                        title: {
+                                            display: true,
+                                            text: 'SurveyID',
+                                            fontSize: 14,
+                                        }
+                                    },
+                                    y: {
+                                        type: 'linear',
+                                        position: 'left',
+                                        title: {
+                                            display: true,
+                                            text: 'Score',
+                                            fontSize: 14,
+                                        }
                                     }
                                 }
                             }
-                        }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
                     });
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        });
+            });
         </script>
     </div>
-</body>
-
-
-
-
-
-
-
-
-
-
-
 
 
     <footer>
@@ -159,15 +164,69 @@
 
 
 
-    
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-          document.addEventListener('DOMContentLoaded', function () {
+
+        async function SetKey() {
+
+            let _Index = 0;
+            tbod = document.getElementById("tbody");
+
+            console.log("SETTING KEY");
+
+            const _Response = await axios.get('http://football.cscprof.com/questions');
+            const _QuestionData = _Response.data;
+
+            console.log(_QuestionData);
+
+            _QuestionData.forEach((_Question) => {
+
+                _Index++;
+
+                console.log(_Question.QNum);
+
+                //create a row and data object
+                trow = document.createElement("tr")
+
+
+                //Question Number
+                tdata = document.createElement("td")
+
+                tdText = document.createTextNode(_Question.QNum);
+
+                tdata.appendChild(tdText);
+
+                trow.appendChild(tdata);
+
+                tbod.appendChild(trow);
+
+                //Question
+
+                tdata = document.createElement("td")
+
+                tdText = document.createTextNode(_Question.Question);
+
+                tdata.appendChild(tdText);
+
+                trow.appendChild(tdata);
+
+
+                //attach it to the table
+                tbod.appendChild(trow);
+
+            })
+
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
             const storedUsername = localStorage.getItem('loggedInUser');
             const logoutButton = document.getElementById('logoutButton');
             const userIDElement = document.getElementById('userID');
             const loginForm = document.getElementById('login-form');
             const currentPage = window.location.pathname;
+
+            SetKey();
 
             if (storedUsername) {
                 userIDElement.textContent = 'User ID: ' + storedUsername;
@@ -233,7 +292,12 @@
                 console.error(error);
                 messageDiv.textContent = 'Error connecting to the database';
             }
+
+
+
+
+
         });
     </script>
-    </body>
+</body>
 </html>
