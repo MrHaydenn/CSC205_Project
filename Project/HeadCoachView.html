@@ -41,98 +41,181 @@
 
 
 
-<body>
+
+
+
+
+    <div class="container">
+        <h1>Questions</h1>
+
+        <table class="table">
+            <thead>
+                <tr id="trth"></tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+
+    </div>
+
     <div>
         <canvas id="scatterChart" height="400"></canvas>
 
         <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            axios.get('http://football.cscprof.com/answers')
-                .then(response => {
-                    const answers = response.data;
+            document.addEventListener('DOMContentLoaded', function () {
 
-                    const surveyAverages = {};
-                    answers.forEach(answer => {
-                        const surveyID = answer.SurveyNumber;
-                        const answerValue = parseFloat(answer.Answer);
+                axios.get('http://football.cscprof.com/answers')
+                    .then(response => {
+                        const answers = response.data;
 
-                        if (!isNaN(answerValue)) {
-                            if (!surveyAverages[surveyID]) {
-                                surveyAverages[surveyID] = { sum: 0, count: 0 };
+                        const surveyAverages = {};
+                        answers.forEach(answer => {
+                            const surveyID = answer.SurveyNumber;
+                            const answerValue = parseFloat(answer.Answer);
+
+                            if (!isNaN(answerValue)) {
+                                if (!surveyAverages[surveyID]) {
+                                    surveyAverages[surveyID] = { sum: 0, count: 0 };
+                                }
+
+                                surveyAverages[surveyID].sum += answerValue;
+                                surveyAverages[surveyID].count += 1;
                             }
+                        });
 
-                            surveyAverages[surveyID].sum += answerValue;
-                            surveyAverages[surveyID].count += 1;
-                        }
-                    });
+                        const averageData = Object.keys(surveyAverages).map(surveyID => {
+                            const average = surveyAverages[surveyID].sum / surveyAverages[surveyID].count;
+                            return { surveyID: parseInt(surveyID), average };
+                        });
 
-                    const averageData = Object.keys(surveyAverages).map(surveyID => {
-                        const average = surveyAverages[surveyID].sum / surveyAverages[surveyID].count;
-                        return { surveyID: parseInt(surveyID), average };
-                    });
+                        averageData.sort((a, b) => a.surveyID - b.surveyID);
 
-                    averageData.sort((a, b) => a.surveyID - b.surveyID);
+                        const chartData = {
+                            labels: averageData.map(data => data.surveyID),
+                            datasets: [{
+                                label: 'Coaches Scores',
+                                data: averageData.map(data => ({
+                                    x: data.surveyID,
+                                    y: data.average
+                                })),
+                                backgroundColor: 'rgb(54, 40, 16)',
+                                borderColor: 'rgb(0, 0, 0)',
+                                borderWidth: 1
+                            }]
+                        };
 
-                    const chartData = {
-                        labels: averageData.map(data => data.surveyID),
-                        datasets: [{
-                            label: 'Coaches Scores',
-                            data: averageData.map(data => ({
-                                x: data.surveyID,
-                                y: data.average
-                            })),
-                            backgroundColor: 'rgb(54, 40, 16)',
-                            borderColor: 'rgb(0, 0, 0)',
-                            borderWidth: 1
-                        }]
-                    };
-
-                    const ctx = document.getElementById('scatterChart').getContext('2d');
-                    const scatterChart = new Chart(ctx, {
-                        type: 'scatter',
-                        data: chartData,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                x: {
-                                    type: 'linear',
-                                    position: 'bottom',
-                                    title: {
-                                        display: true,
-                                        text: 'SurveyID',
-                                        fontSize: 14,
-                                    }
-                                },
-                                y: {
-                                    type: 'linear',
-                                    position: 'left',
-                                    title: {
-                                        display: true,
-                                        text: 'Score',
-                                        fontSize: 14,
+                        const ctx = document.getElementById('scatterChart').getContext('2d');
+                        const scatterChart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: chartData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: {
+                                        type: 'linear',
+                                        position: 'bottom',
+                                        title: {
+                                            display: true,
+                                            text: 'SurveyID',
+                                            fontSize: 14,
+                                        }
+                                    },
+                                    y: {
+                                        type: 'linear',
+                                        position: 'left',
+                                        title: {
+                                            display: true,
+                                            text: 'Score',
+                                            fontSize: 14,
+                                        }
                                     }
                                 }
                             }
-                        }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
                     });
+
+
+
+            });
+
+
+            async function SetKey() {
+
+                let _Index = 0;
+                tbod = document.getElementById("tbody");
+
+                console.log("SETTING KEY");
+
+                const _Response = await axios.get('http://football.cscprof.com/questions');
+                const _QuestionData = _Response.data;
+
+                console.log(_QuestionData);
+
+                _QuestionData.forEach((_Question) => {
+
+                    _Index++;
+
+                    console.log(_Question.QNum);
+
+                    //create a row and data object
+                    trow = document.createElement("tr")
+
+
+                    //Question Number
+                    tdata = document.createElement("td")
+
+                    tdText = document.createTextNode(_Question.QNum);
+
+                    tdata.appendChild(tdText);
+
+                    trow.appendChild(tdata);
+
+                    tbod.appendChild(trow);
+
+                    //Question
+
+                    tdata = document.createElement("td")
+
+                    tdText = document.createTextNode(_Question.Question);
+
+                    tdata.appendChild(tdText);
+
+                    trow.appendChild(tdata);
+
+
+                    //attach it to the table
+                    tbod.appendChild(trow);
+
                 })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        });
+
+            }
+
+
+
+
+
+
         </script>
     </div>
     <div>
         <canvas id="loggedInCoachChart" height="400"></canvas>
     </div>
+
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             // Logged In Coach
+
+            SetKey();
 
             const loggedInCoachID = localStorage.getItem('loggedInUser');
             axios.get(`http://football.cscprof.com/answers?coachID=${loggedInCoachID}`)
                 .then(response => {
+
                     const loggedInCoachAnswers = response.data;
 
                     const loggedInCoachChartData = {
@@ -182,9 +265,18 @@
                 .catch(error => {
                     console.error('Error fetching data for the logged-in coach:', error);
                 });
+
         });
+
+
+
+
     </script>
-</body>
+
+
+
+
+
 
 
 
@@ -219,11 +311,20 @@
     </footer>
 
 
-
+    
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    
     <script>
-          document.addEventListener('DOMContentLoaded', function () {
+
+        
+        document.addEventListener('DOMContentLoaded', function () {
+
+            
+
+
+
             const storedUsername = localStorage.getItem('loggedInUser');
             const logoutButton = document.getElementById('logoutButton');
             const userIDElement = document.getElementById('userID');
@@ -254,7 +355,43 @@
                     window.location.replace('index.html');
                 }
             }
+
+       
+              
+            const _Response = await axios.get('http://football.cscprof.com/coaches');
+            const coachesData = _Response.data;
+            for (var i = 0; i < coachesData.length; i++) {
+                if (coachesData[i].userID == localStorage.getItem('loggedInUser')) {
+                    _CurrentCoachData = coachesData[i];
+                }
+            }
+            var _SurveyData = [];
+            console.log(_CurrentCoachData.coachID);
+            var _String = 'http://football.cscprof.com/coaches/' + _CurrentCoachData.coachID + '/answers';
+            console.log(_String);
+            const _Response2 = await axios.get(_String)
+            _SurveyData = _Response2.data;
+            const _Answers = _SurveyData.answers;
+            console.log(_Answers);
+            var _ChartData = [];
+            for (var i = 1; i < 5; i++) {
+                var _AverageScore = [];
+                for (var j = 0; j < 18; j++) {
+                    if (parseInt(_Answers[j].Answer) == i) {
+                        _AverageScore.push(parseInt(_Answers[j].Answer));
+                    }
+                }
+                console.log(_AverageScore);
+                _ChartData[i] = calculateAverage(_AverageScore);
+            }
+
+              
+
         });
+
+        
+        
+        
 
         const loginForm = document.getElementById('login-form');
         const messageDiv = document.getElementById('message');
@@ -295,6 +432,8 @@
                 messageDiv.textContent = 'Error connecting to the database';
             }
         });
+
     </script>
+
     </body>
 </html>
