@@ -3,6 +3,7 @@
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Football Thingy</title>
 </head>
 
@@ -15,7 +16,7 @@
     <img class="HeadImage" src="./assets/images/HeadImage.png" alt="Header" onclick="">
 
     <br />
-        <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
+    <button class="logoutButton" id="logoutButton" style="display: none">Logout</button>
     <nav class="topnav">
         <div>
             <a href="./index.html">Home</a>
@@ -34,18 +35,29 @@
     </form>
     <div id="message"></div>
 
+    <header>
+        <label>Average Numbers of the Coaches Survey Scores</label>
+    </header>
 
-<header>
-            <label>Average Numbers of the Coaches Survey Scores</label>
-</header>
+    <div>
+        <label for="chartType">Select Chart Type:</label>
+        <select id="chartType" onchange="changeChartType()">
+            <option value="scatter">Scatter Chart</option>
+            <option value="line">Line Chart</option>
+            <option value="pie">Pie Chart</option>
+            <option value="bar">Bar Chart</option>
+            <option value="bubble">Bubble Chart</option>
+            <option value="radar">Radar Chart</option>
+        </select>
+    </div>
 
-
-
-<body>
     <div>
         <canvas id="scatterChart" height="400"></canvas>
+    </div>
 
-        <script>
+    <script>
+        let scatterChart;
+
         document.addEventListener('DOMContentLoaded', function () {
             axios.get('http://football.cscprof.com/answers')
                 .then(response => {
@@ -88,7 +100,7 @@
                     };
 
                     const ctx = document.getElementById('scatterChart').getContext('2d');
-                    const scatterChart = new Chart(ctx, {
+                    scatterChart = new Chart(ctx, {
                         type: 'scatter',
                         data: chartData,
                         options: {
@@ -121,8 +133,48 @@
                     console.error('Error fetching data:', error);
                 });
         });
-        </script>
-    </div>
+
+        function changeChartType() {
+            const chartTypeSelector = document.getElementById('chartType');
+            const selectedChartType = chartTypeSelector.value;
+
+            // Destroy the existing chart if it exists
+            if (scatterChart) {
+                scatterChart.destroy();
+            }
+
+            // Create a new chart with the selected type
+            scatterChart = new Chart(ctx, {
+                type: selectedChartType,
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'Coach',
+                                fontSize: 14,
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Score',
+                                fontSize: 14,
+                            }
+                        }
+                    }
+                },
+            });
+        }
+    </script>
+
     <div>
         <canvas id="loggedInCoachChart" height="400"></canvas>
     </div>
@@ -151,7 +203,7 @@
 
                     const loggedInCoachCtx = document.getElementById('loggedInCoachChart').getContext('2d');
                     const loggedInCoachScatterChart = new Chart(loggedInCoachCtx, {
-                        type: 'scatter',
+                        type: 'radar',
                         data: loggedInCoachChartData,
                         options: {
                             responsive: true,
@@ -186,115 +238,100 @@
     </script>
 </body>
 
+<footer>
+    <h2>Extra information</h2>
+    <p>
+        <button>Email</button>
+        <button>Help</button>
+        <button>Chat</button>
+    </p>
+    <p>
+        Conditions Of Use
+    </p>
+    <p>
+        Privacy Notice
+    </p>
+    <p>
+        Your Ads
+    </p>
+    <p>
+        1996-2023, Devious Publishing, Inc
+    </p>
+</footer>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedUsername = localStorage.getItem('loggedInUser');
+        const logoutButton = document.getElementById('logoutButton');
+        const userIDElement = document.getElementById('userID');
+        const loginForm = document.getElementById('login-form');
+        const currentPage = window.location.pathname;
 
+        if (storedUsername) {
+            userIDElement.textContent = 'User ID: ' + storedUsername;
 
+            if (loginForm) {
+                loginForm.remove();
+            }
 
+            logoutButton.style.display = 'block';
 
+            logoutButton.addEventListener('click', function () {
+                localStorage.removeItem('loggedInUser');
+                location.reload();
+                // removes stored user data
+            });
+        } else {
+            if (logoutButton) {
+                logoutButton.style.display = 'none';
+            }
 
+            // If user is not logged in and tries to redirect to index.html]
+            if (currentPage !== 'index.html') {
+                window.location.replace('index.html');
+            }
+        }
+    });
 
+    const loginForm = document.getElementById('login-form');
+    const messageDiv = document.getElementById('message');
 
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
+        try {
+            const response = await axios.get('http://football.cscprof.com/coaches');
 
+            const coachesData = response.data;
+            const foundCoach = coachesData.find(coach => coach.userID === username && coach.Password === password);
 
-    <footer>
-        <h2>Extra information</h2>
-        <p>
-            <button>Email</button>
-            <button>Help</button>
-            <button>Chat</button>
-        </p>
-        <p>
-            Conditions Of Use
-        </p>
-        <p>
-            Privacy Notice
-        </p>
-        <p>
-            Your Ads
-        </p>      <p>
-            1996-2023, Devious Publishing, Inc
-        </p>
-    </footer>
+            if (foundCoach) {
+                messageDiv.textContent = 'Logged In.';
 
+                localStorage.setItem('loggedInUser', username);
 
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            const storedUsername = localStorage.getItem('loggedInUser');
-            const logoutButton = document.getElementById('logoutButton');
-            const userIDElement = document.getElementById('userID');
-            const loginForm = document.getElementById('login-form');
-            const currentPage = window.location.pathname;
-
-            if (storedUsername) {
-                userIDElement.textContent = 'User ID: ' + storedUsername;
+                const userIDElement = document.getElementById('userID');
+                userIDElement.textContent = username;
 
                 if (loginForm) {
                     loginForm.remove();
                 }
 
-                logoutButton.style.display = 'block';
-
-                logoutButton.addEventListener('click', function () {
-                    localStorage.removeItem('loggedInUser');
-                    location.reload();
-                    // removes stored user data
-                });
-            } else {
+                const logoutButton = document.getElementById('logoutButton');
                 if (logoutButton) {
-                    logoutButton.style.display = 'none';
+                    logoutButton.style.display = 'block';
                 }
-
-                // If user is not logged in and tries to redirect to index.html]
-                if (currentPage !== 'index.html') {
-                    window.location.replace('index.html');
-                }
+            } else {
+                messageDiv.textContent = 'Wrong username or password.';
             }
-        });
+        } catch (error) {
+            console.error(error);
+            messageDiv.textContent = 'Error connecting to the database';
+        }
+    });
+</script>
 
-        const loginForm = document.getElementById('login-form');
-        const messageDiv = document.getElementById('message');
-
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await axios.get('http://football.cscprof.com/coaches');
-
-                const coachesData = response.data;
-                const foundCoach = coachesData.find(coach => coach.userID === username && coach.Password === password);
-
-                if (foundCoach) {
-                    messageDiv.textContent = 'Logged In.';
-
-                    localStorage.setItem('loggedInUser', username);
-
-                    const userIDElement = document.getElementById('userID');
-                    userIDElement.textContent = username;
-
-                    if (loginForm) {
-                        loginForm.remove();
-                    }
-
-                    const logoutButton = document.getElementById('logoutButton');
-                    if (logoutButton) {
-                        logoutButton.style.display = 'block';
-                    }
-                } else {
-                    messageDiv.textContent = 'Wrong username or password.';
-                }
-            } catch (error) {
-                console.error(error);
-                messageDiv.textContent = 'Error connecting to the database';
-            }
-        });
-    </script>
-    </body>
 </html>
